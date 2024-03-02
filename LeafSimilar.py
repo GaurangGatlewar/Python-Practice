@@ -11,19 +11,15 @@ class LeafSimilar:
         return leaves1==leaves2
 
     def findLeafSequence(self, root: Optional[TreeNode]) -> List:
-        if not root:
-            return ([])
-
-        if not root.left and not root.right:
-            return ([root.val])
-
-        if not root.left:
-            return self.findLeafSequence(root.right)
-
-        if not root.right:
-            return self.findLeafSequence(root.left)
-
-        sequence1 = self.findLeafSequence(root.left)
-        sequence2 = self.findLeafSequence(root.right)
-        sequence1.extend(sequence2)
-        return (sequence1)
+        leafSequence = []
+        if root: 
+            q = [root]
+            while len(q)>0:
+                currentNode = q.pop()
+                if not currentNode.left and not currentNode.right:
+                    leafSequence.append(currentNode.val)
+                if currentNode.right:
+                    q.append(currentNode.right)
+                if currentNode.left:
+                    q.append(currentNode.left)
+        return leafSequence
