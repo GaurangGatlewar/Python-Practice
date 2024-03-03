@@ -5,33 +5,18 @@
 #         self.left = None
 #         self.right = None
 
-class LowestCommonAncestor:
+class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+        if not root:
+            return None
+            
         if (root == p) or (root == q):
             return root
         
-        root.val = self.helper(root, p, q)
-        
-        while root:
-            if (root.left) and (root.left.val[1] == 2):
-                root = root.left
-            elif (root.right) and (root.right.val[1] == 2):
-                root = root.right
-            else:
-                break
-        root.val = root.val[0]
-        return root
-        
-    def helper(self, root, p, q):
-        if not root:
-            return [0, 0]
-        
-        answer = 0
-        if root.left:
-            root.left.val = [root.left.val, self.helper(root.left, p, q)[1]]
-            answer += root.left.val[1]
-        if root.right:
-            root.right.val = [root.right.val, self.helper(root.right, p, q)[1]]
-            answer += root.right.val[1]
-        
-        return [root.val, (answer + (root == p) + (root == q))]
+        l = self.lowestCommonAncestor(root.left,p,q)
+        r = self.lowestCommonAncestor(root.right,p,q)
+
+        if l and r:
+            return root
+
+        return l or r
